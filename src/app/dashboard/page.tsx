@@ -268,11 +268,13 @@ export default function DashboardPage() {
         <Tabs defaultValue="general" className="w-full" onValueChange={(val) => {
           if (val === 'messages' && messages.length === 0) fetchMessages(password)
         }}>
-          <TabsList className="grid w-full grid-cols-5 mb-8">
+          <TabsList className="grid w-full grid-cols-7 mb-8">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="about">About & Skills</TabsTrigger>
             <TabsTrigger value="projects">Projects</TabsTrigger>
             <TabsTrigger value="experience">Experience</TabsTrigger>
+            <TabsTrigger value="certificates">Certificates</TabsTrigger>
+            <TabsTrigger value="contact">Contact Info</TabsTrigger>
             <TabsTrigger value="messages" className="relative gap-2">
               <Inbox className="w-3.5 h-3.5" />
               Messages
@@ -334,6 +336,17 @@ export default function DashboardPage() {
                     placeholder="leetcode.com/u/yourusername"
                   />
                   <p className="text-[10px] text-muted-foreground">Visible in the main site header.</p>
+                </div>
+                <div className="space-y-2 border-t pt-4 mt-4">
+                  <label className="text-sm font-bold flex items-center gap-2">
+                    <Globe size={14} className="text-primary" /> Resume / CV URL
+                  </label>
+                  <Input
+                    value={formData.resumeUrl || ''}
+                    onChange={e => setFormData({ ...formData, resumeUrl: e.target.value })}
+                    placeholder="https://drive.google.com/... or /resume.pdf"
+                  />
+                  <p className="text-[10px] text-muted-foreground">Paste a Google Drive link, Dropbox link, or a local path like /resume.pdf. This is used for the Download PDF button.</p>
                 </div>
               </CardContent>
             </Card>
@@ -431,7 +444,56 @@ export default function DashboardPage() {
                       placeholder="Tech stack (comma-separated)"
                       className="text-xs"
                     />
-                    <div className="flex justify-between items-center">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase text-muted-foreground flex items-center gap-1.5"><Globe className="w-3 h-3" /> Project Image URL</label>
+                      <Input
+                        value={project.image}
+                        onChange={e => {
+                          const newProjects = [...formData.projects]
+                          newProjects[idx] = { ...newProjects[idx], image: e.target.value }
+                          setFormData({...formData, projects: newProjects})
+                        }}
+                        placeholder="https://your-image.com/screenshot.png"
+                        className="text-xs"
+                      />
+                      {project.image && project.image !== "" && (
+                        <div className="mt-2 rounded-lg overflow-hidden border aspect-video bg-muted">
+                          <img
+                            src={project.image}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase text-muted-foreground flex items-center gap-1.5"><Globe className="w-3 h-3" /> Live Demo / Project Link</label>
+                      <Input
+                        value={project.link}
+                        onChange={e => {
+                          const newProjects = [...formData.projects]
+                          newProjects[idx] = { ...newProjects[idx], link: e.target.value }
+                          setFormData({...formData, projects: newProjects})
+                        }}
+                        placeholder="https://your-project.com"
+                        className="text-xs"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase text-muted-foreground flex items-center gap-1.5"><Globe className="w-3 h-3" /> GitHub Repository Link</label>
+                      <Input
+                        value={project.github}
+                        onChange={e => {
+                          const newProjects = [...formData.projects]
+                          newProjects[idx] = { ...newProjects[idx], github: e.target.value }
+                          setFormData({...formData, projects: newProjects})
+                        }}
+                        placeholder="https://github.com/username/repo"
+                        className="text-xs"
+                      />
+                    </div>
+                    <div className="flex justify-between items-center pt-2 border-t">
                       <span className="text-xs text-muted-foreground">{project.tech.join(", ")}</span>
                       <Button variant="ghost" size="icon" onClick={() => {
                         const newProjects = formData.projects.filter((_, i) => i !== idx)
@@ -488,6 +550,165 @@ export default function DashboardPage() {
                 }}>
                   <Plus className="w-4 h-4" /> Add Experience
                 </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="certificates" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Certificates & Achievements</CardTitle>
+                <CardDescription>Add your certifications, courses, and achievements here.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {(formData.certificates || []).map((cert, idx) => (
+                  <div key={idx} className="p-4 border rounded-xl space-y-3">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-muted-foreground">Certificate Title</label>
+                        <Input
+                          value={cert.title}
+                          onChange={e => {
+                            const newCerts = [...(formData.certificates || [])]
+                            newCerts[idx] = { ...newCerts[idx], title: e.target.value }
+                            setFormData({ ...formData, certificates: newCerts })
+                          }}
+                          placeholder="e.g. Python for Data Science"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-muted-foreground">Issuer / Platform</label>
+                        <Input
+                          value={cert.issuer}
+                          onChange={e => {
+                            const newCerts = [...(formData.certificates || [])]
+                            newCerts[idx] = { ...newCerts[idx], issuer: e.target.value }
+                            setFormData({ ...formData, certificates: newCerts })
+                          }}
+                          placeholder="e.g. Coursera, Udemy, Google"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-muted-foreground">Date / Year</label>
+                        <Input
+                          value={cert.date}
+                          onChange={e => {
+                            const newCerts = [...(formData.certificates || [])]
+                            newCerts[idx] = { ...newCerts[idx], date: e.target.value }
+                            setFormData({ ...formData, certificates: newCerts })
+                          }}
+                          placeholder="e.g. 2023 or Jun 2023"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-muted-foreground">Certificate Link</label>
+                        <Input
+                          value={cert.link}
+                          onChange={e => {
+                            const newCerts = [...(formData.certificates || [])]
+                            newCerts[idx] = { ...newCerts[idx], link: e.target.value }
+                            setFormData({ ...formData, certificates: newCerts })
+                          }}
+                          placeholder="https://coursera.org/verify/..."
+                        />
+                      </div>
+                    </div>
+                    {/* Image URL field with live preview */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase text-muted-foreground flex items-center gap-1.5">
+                        <Globe className="w-3 h-3" /> Certificate Image / Badge URL
+                      </label>
+                      <Input
+                        value={cert.image || ''}
+                        onChange={e => {
+                          const newCerts = [...(formData.certificates || [])]
+                          newCerts[idx] = { ...newCerts[idx], image: e.target.value }
+                          setFormData({ ...formData, certificates: newCerts })
+                        }}
+                        placeholder="https://your-image.com/certificate.png"
+                        className="text-xs"
+                      />
+                      {cert.image && cert.image !== '' && (
+                        <div className="mt-2 rounded-lg overflow-hidden border aspect-video bg-muted">
+                          <img
+                            src={cert.image}
+                            alt="Certificate Preview"
+                            className="w-full h-full object-cover"
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                    <Button variant="ghost" className="w-full text-destructive" onClick={() => {
+                      const newCerts = (formData.certificates || []).filter((_, i) => i !== idx)
+                      setFormData({ ...formData, certificates: newCerts })
+                    }}>Remove Certificate</Button>
+                  </div>
+                ))}
+                <Button variant="outline" className="w-full gap-2" onClick={() => {
+                  setFormData({
+                    ...formData,
+                    certificates: [...(formData.certificates || []), { title: "", issuer: "", date: "", link: "", image: "" }]
+                  })
+                }}>
+                  <Plus className="w-4 h-4" /> Add Certificate
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="contact" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Contact Information</CardTitle>
+                <CardDescription>Update your public contact details. These are shown in the Contact section and footer.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-bold">Email Address</label>
+                    <Input
+                      value={formData.contact.email}
+                      onChange={e => setFormData({ ...formData, contact: { ...formData.contact, email: e.target.value } })}
+                      placeholder="you@example.com"
+                      type="email"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-bold">Phone Number</label>
+                    <Input
+                      value={formData.contact.phone}
+                      onChange={e => setFormData({ ...formData, contact: { ...formData.contact, phone: e.target.value } })}
+                      placeholder="+91 98765 43210"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-bold">LinkedIn Profile URL</label>
+                  <Input
+                    value={formData.contact.linkedin}
+                    onChange={e => setFormData({ ...formData, contact: { ...formData.contact, linkedin: e.target.value } })}
+                    placeholder="linkedin.com/in/yourprofile"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-bold">GitHub Profile URL</label>
+                  <Input
+                    value={formData.contact.github}
+                    onChange={e => setFormData({ ...formData, contact: { ...formData.contact, github: e.target.value } })}
+                    placeholder="github.com/yourusername"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-bold">LeetCode Profile URL</label>
+                  <Input
+                    value={formData.contact.leetcode}
+                    onChange={e => setFormData({ ...formData, contact: { ...formData.contact, leetcode: e.target.value } })}
+                    placeholder="leetcode.com/u/yourusername"
+                  />
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

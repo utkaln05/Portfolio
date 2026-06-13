@@ -4,7 +4,7 @@ import { PortfolioProvider } from '@/context/PortfolioContext';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Analystic Pro | Utkal Nikam Portfolio',
+  title: 'Utkal Nikam Portfolio',
   description: 'Premium AI-powered portfolio of Utkal Nikam, Data Analyst and Python Developer.',
 };
 

@@ -13,6 +13,8 @@ export function Resume() {
       : `https://${data.contact.linkedin}`
     : '#'
 
+  const resumeLink = data.resumeUrl || '/resume.pdf'
+
   return (
     <section id="resume" className="py-24 border-t">
       <div className="max-w-5xl mx-auto px-6 text-center space-y-8">
@@ -29,7 +31,7 @@ export function Resume() {
             }`}
             asChild
           >
-            <a href="/resume.pdf" download>
+            <a href={resumeLink} target="_blank" rel="noopener noreferrer" download>
               <Download className="w-4 h-4" /> Download PDF
             </a>
           </Button>

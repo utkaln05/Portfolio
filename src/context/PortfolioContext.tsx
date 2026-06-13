@@ -8,6 +8,7 @@ export interface PortfolioData {
   profileImage: string
   tagline: string
   introduction: string
+  resumeUrl: string
   buttonStyle?: "default" | "glow" | "neoBrutal" | "glass" | "shimmer" | "magnetic"
   aboutMe: {
     title: string
@@ -37,6 +38,13 @@ export interface PortfolioData {
     duration: string
     details: string[]
   }>
+  certificates: Array<{
+    title: string
+    issuer: string
+    date: string
+    link: string
+    image: string
+  }>
   contact: {
     email: string
     linkedin: string
@@ -52,6 +60,7 @@ export const defaultData: PortfolioData = {
   profileImage: "https://picsum.photos/seed/utkal/400/400",
   tagline: "Decoding Data, Powering Insights.",
   introduction: "I'm a Data Analyst and Python Developer passionate about transforming complex datasets into strategic narratives through automation and advanced visualization.",
+  resumeUrl: "/resume.pdf",
   buttonStyle: "glow",
   aboutMe: {
     title: "Who I Am",
@@ -110,6 +119,15 @@ export const defaultData: PortfolioData = {
       university: "University of Mumbai",
       duration: "2018 - 2022",
       details: ["Data Mining", "AI/ML", "Database Systems"]
+    }
+  ],
+  certificates: [
+    {
+      title: "Python for Data Science",
+      issuer: "Coursera",
+      date: "2023",
+      link: "#",
+      image: ""
     }
   ],
   contact: {
