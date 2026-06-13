@@ -6,7 +6,6 @@ import { Projects } from "@/components/Projects"
 import { Experience } from "@/components/Experience"
 import { Education } from "@/components/Education"
 import { Certificates } from "@/components/Certificates"
-import { AiStrategist } from "@/components/AiStrategist"
 import { Resume } from "@/components/Resume"
 import { Contact } from "@/components/Contact"
 import { Footer } from "@/components/Footer"
@@ -22,7 +21,6 @@ export default function Home() {
       <Experience />
       <Education />
       <Certificates />
-      <AiStrategist />
       <Resume />
       <Contact />
       <Footer />
