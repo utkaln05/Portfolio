@@ -33,12 +33,9 @@ Copy `.env.example` to `.env.local` and fill in your values:
 cp .env.example .env.local
 ```
 
-```env
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/?retryWrites=true&w=majority
-DASHBOARD_PASSWORD=your_secret_password
-```
 
-### Run Locally
+
+
 
 ```bash
 npm run dev
