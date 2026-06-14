@@ -31,8 +31,8 @@ export function Resume() {
             }`}
             asChild
           >
-            <a href={resumeLink} target="_blank" rel="noopener noreferrer" download>
-              <Download className="w-4 h-4" /> Download PDF
+            <a href={resumeLink} target="_blank" rel="noopener noreferrer">
+              <ExternalLink className="w-4 h-4" /> View Resume
             </a>
           </Button>
           <Button

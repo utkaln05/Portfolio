@@ -346,7 +346,7 @@ export default function DashboardPage() {
                     onChange={e => setFormData({ ...formData, resumeUrl: e.target.value })}
                     placeholder="https://drive.google.com/... or /resume.pdf"
                   />
-                  <p className="text-[10px] text-muted-foreground">Paste a Google Drive link, Dropbox link, or a local path like /resume.pdf. This is used for the Download PDF button.</p>
+                  <p className="text-[10px] text-muted-foreground">Paste a Google Drive link, Dropbox link, or a local path like /resume.pdf. This is used for the View Resume button.</p>
                 </div>
               </CardContent>
             </Card>
