@@ -58,11 +58,14 @@ export function Hero() {
                 </a>
               </Button>
               <Button 
+                asChild
                 variant="outline" 
                 size="lg" 
                 className="gap-2 rounded-xl px-8 h-14 text-base font-semibold hover:bg-accent hover:scale-[1.01] transition-all"
               >
-                <FileText className="w-4 h-4" /> Resume
+                <a href={data.resumeUrl || "#"} target="_blank" rel="noopener noreferrer">
+                  <FileText className="w-4 h-4" /> Resume
+                </a>
               </Button>
             </div>
           </div>
