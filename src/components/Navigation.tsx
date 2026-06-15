@@ -20,7 +20,7 @@ export function Navigation() {
 
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.shiftKey && e.key.toLowerCase() === 'e') {
+      if (e.ctrlKey && e.shiftKey && e.key === ']') {
         router.push('/dashboard')
       }
     }
