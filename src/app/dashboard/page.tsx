@@ -268,14 +268,15 @@ export default function DashboardPage() {
         <Tabs defaultValue="general" className="w-full" onValueChange={(val) => {
           if (val === 'messages' && messages.length === 0) fetchMessages(password)
         }}>
-          <TabsList className="grid w-full grid-cols-7 mb-8">
-            <TabsTrigger value="general">General</TabsTrigger>
-            <TabsTrigger value="about">About & Skills</TabsTrigger>
-            <TabsTrigger value="projects">Projects</TabsTrigger>
-            <TabsTrigger value="experience">Experience</TabsTrigger>
-            <TabsTrigger value="certificates">Certificates</TabsTrigger>
-            <TabsTrigger value="contact">Contact Info</TabsTrigger>
-            <TabsTrigger value="messages" className="relative gap-2">
+          <TabsList className="flex flex-wrap w-full gap-2 mb-8 bg-muted/50 p-1 rounded-xl">
+            <TabsTrigger value="general" className="flex-1">General</TabsTrigger>
+            <TabsTrigger value="about" className="flex-1">About & Skills</TabsTrigger>
+            <TabsTrigger value="projects" className="flex-1">Projects</TabsTrigger>
+            <TabsTrigger value="experience" className="flex-1">Experience</TabsTrigger>
+            <TabsTrigger value="education" className="flex-1">Education</TabsTrigger>
+            <TabsTrigger value="certificates" className="flex-1">Certificates</TabsTrigger>
+            <TabsTrigger value="contact" className="flex-1">Contact Info</TabsTrigger>
+            <TabsTrigger value="messages" className="flex-1 relative gap-2">
               <Inbox className="w-3.5 h-3.5" />
               Messages
               {messages.length > 0 && (
@@ -592,6 +593,18 @@ export default function DashboardPage() {
                         setFormData({...formData, experience: newExp})
                       }} placeholder="Company" />
                     </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <Input value={exp.period} onChange={e => {
+                        const newExp = [...formData.experience]
+                        newExp[idx] = { ...newExp[idx], period: e.target.value }
+                        setFormData({...formData, experience: newExp})
+                      }} placeholder="Period (e.g., 2023 - Present)" />
+                      <Input value={exp.location} onChange={e => {
+                        const newExp = [...formData.experience]
+                        newExp[idx] = { ...newExp[idx], location: e.target.value }
+                        setFormData({...formData, experience: newExp})
+                      }} placeholder="Location (e.g., Remote)" />
+                    </div>
                     <Textarea value={exp.description} onChange={e => {
                       const newExp = [...formData.experience]
                       newExp[idx] = { ...newExp[idx], description: e.target.value }
@@ -607,6 +620,53 @@ export default function DashboardPage() {
                   setFormData({...formData, experience: [...formData.experience, { title: "", company: "", period: "", location: "", description: "", achievements: [] }]})
                 }}>
                   <Plus className="w-4 h-4" /> Add Experience
+                </Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="education" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Education</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {formData.education.map((edu, idx) => (
+                  <div key={idx} className="p-4 border rounded-xl space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <Input value={edu.degree} onChange={e => {
+                        const newEdu = [...formData.education]
+                        newEdu[idx] = { ...newEdu[idx], degree: e.target.value }
+                        setFormData({...formData, education: newEdu})
+                      }} placeholder="Degree (e.g., B.E. Information Technology)" />
+                      <Input value={edu.university} onChange={e => {
+                        const newEdu = [...formData.education]
+                        newEdu[idx] = { ...newEdu[idx], university: e.target.value }
+                        setFormData({...formData, education: newEdu})
+                      }} placeholder="University" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <Input value={edu.duration} onChange={e => {
+                        const newEdu = [...formData.education]
+                        newEdu[idx] = { ...newEdu[idx], duration: e.target.value }
+                        setFormData({...formData, education: newEdu})
+                      }} placeholder="Duration (e.g., 2018 - 2022)" />
+                      <Input value={edu.details.join(", ")} onChange={e => {
+                        const newEdu = [...formData.education]
+                        newEdu[idx] = { ...newEdu[idx], details: e.target.value.split(",").map(d => d.trim()) }
+                        setFormData({...formData, education: newEdu})
+                      }} placeholder="Details (comma separated, e.g., Data Mining, AI/ML)" />
+                    </div>
+                    <Button variant="ghost" className="w-full text-destructive" onClick={() => {
+                      const newEdu = formData.education.filter((_, i) => i !== idx)
+                      setFormData({...formData, education: newEdu})
+                    }}>Remove</Button>
+                  </div>
+                ))}
+                <Button variant="outline" className="w-full gap-2" onClick={() => {
+                  setFormData({...formData, education: [...formData.education, { degree: "", university: "", duration: "", details: [] }]})
+                }}>
+                  <Plus className="w-4 h-4" /> Add Education
                 </Button>
               </CardContent>
             </Card>
