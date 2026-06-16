@@ -378,6 +378,64 @@ export default function DashboardPage() {
 
             <Card>
               <CardHeader>
+                <CardTitle>Highlights / Services</CardTitle>
+                <CardDescription>Key services or core strengths displayed under the About section.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {(formData.aboutMe.highlights || []).map((highlight, idx) => (
+                  <div key={idx} className="flex gap-4 items-start border p-4 rounded-xl">
+                    <div className="flex-1 space-y-3">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-muted-foreground">Highlight Title</label>
+                        <Input
+                          value={highlight.title}
+                          onChange={e => {
+                            const newHighlights = [...(formData.aboutMe.highlights || [])]
+                            newHighlights[idx] = { ...newHighlights[idx], title: e.target.value }
+                            setFormData({...formData, aboutMe: {...formData.aboutMe, highlights: newHighlights}})
+                          }}
+                          placeholder="e.g., Data Extraction"
+                          className="font-bold"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold uppercase text-muted-foreground">Description</label>
+                        <Textarea
+                          value={highlight.text}
+                          onChange={e => {
+                            const newHighlights = [...(formData.aboutMe.highlights || [])]
+                            newHighlights[idx] = { ...newHighlights[idx], text: e.target.value }
+                            setFormData({...formData, aboutMe: {...formData.aboutMe, highlights: newHighlights}})
+                          }}
+                          placeholder="Description of the service or strength..."
+                          className="text-sm min-h-[60px]"
+                        />
+                      </div>
+                    </div>
+                    <Button variant="ghost" size="icon" onClick={() => {
+                      const newHighlights = (formData.aboutMe.highlights || []).filter((_, i) => i !== idx)
+                      setFormData({...formData, aboutMe: {...formData.aboutMe, highlights: newHighlights}})
+                    }} className="mt-6">
+                      <Trash2 className="w-4 h-4 text-destructive" />
+                    </Button>
+                  </div>
+                ))}
+                <Button variant="outline" className="w-full gap-2" onClick={() => {
+                  setFormData({
+                    ...formData,
+                    aboutMe: {
+                      ...formData.aboutMe,
+                      highlights: [...(formData.aboutMe.highlights || []), { title: "", text: "" }]
+                    }
+                  })
+                }}>
+                  <Plus className="w-4 h-4" /> Add Highlight
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
                 <CardTitle>Technical Skills</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
